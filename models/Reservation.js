@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
-const Reservation = mongoose.Schema({
+const Reservation = new 
+mongoose.Schema({
     customerName: {
         type: String,
         required: true,

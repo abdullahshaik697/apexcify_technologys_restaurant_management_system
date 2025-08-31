@@ -13,17 +13,11 @@ const MenuItem = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    category:{
-        type: String,
-        enum: ["Fast Food", "Desi Food"],
-        default: 'Fast Food',
-        required: true,
-    }, 
     availability:{
         type: String,
         required: true,
     }
 })
 
-const MenuItemModel = mongoose.Model('Menu', MenuItem)
+const MenuItemModel = mongoose.model('Menu', MenuItem)
 module.exports = MenuItemModel
