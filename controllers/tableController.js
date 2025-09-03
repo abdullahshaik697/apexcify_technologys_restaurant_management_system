@@ -8,6 +8,9 @@ const updateTableStatus = (req, res) => {
 
 const showTables = (req, res) => {
 
+        
+        res.render("tables")
+        
 }
 
 

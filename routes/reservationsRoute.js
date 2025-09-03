@@ -1,9 +1,10 @@
 const express =  require('express')
+const { showReservations, addReservation, updateReservation, deleteReservation } = require('../controllers/reservationController')
 const router = express.Router()
 
-router.get('reservations',reservationController)
-router.post('reservations',reservationController)
-router.put('reservations',reservationController)
-router.delete('reservations',reservationController)
+router.get('/',showReservations)
+router.post('/',addReservation)
+router.put('/',updateReservation)
+router.delete('/',deleteReservation)
 
 module.exports = router

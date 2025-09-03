@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENU</title>
+</head>
+<body>
+    <h2>Menu Items</h2>
+
+<form action="/api/home/menu" method="POST">
+  <input type="text" name="name" placeholder="Dish Name" required>
+  <input type="text" name="description" placeholder="Description" required>
+  <input type="number" name="price" placeholder="Price" required>
+  <select name="availability" required>
+    <option value="" hidden>-- Select Availability --</option>
+    <option value="Available">Available</option>
+    <option value="Not Available">Not Available</option>
+  </select>
+  <button type="submit">Add Dish</button>
+</form>
+
+<hr>
+
+
+</body> 
+</html>

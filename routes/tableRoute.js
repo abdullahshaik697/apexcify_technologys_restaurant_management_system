@@ -1,8 +1,9 @@
 const express =  require('express')
+const { showTables, addTable, updateTableStatus } = require('../controllers/tableController')
 const router = express.Router()
 
-router.get('tables',tableController)
-router.post('tables',tableController)
-router.put('tables',tableController)
+router.get('/', showTables)
+router.post('/', addTable)
+router.put('/', updateTableStatus)
 
 module.exports = router

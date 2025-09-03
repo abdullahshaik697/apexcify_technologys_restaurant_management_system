@@ -10,6 +10,7 @@ const deleteOrder = (req, res) => {
 }
 const showOrders = (req, res) => {
 
+        res.render('orders')
 }
 
 

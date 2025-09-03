@@ -10,6 +10,9 @@ const deleteReservation = (req, res) => {
 }
 const showReservations = (req, res) => {
 
+        
+        res.render("reservations")
+        
 }
 
 
