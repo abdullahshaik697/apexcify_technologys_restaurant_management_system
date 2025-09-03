@@ -8,23 +8,50 @@ const addMenuItem = async (req, res) => {
         const newMenuItem = new MenuItemModel({name, description, price , availability})  
         await newMenuItem.save()
 
-        res.render('menu')
+        res.redirect('/api/home/menu')
                 
         } catch (error) {
               console.log('Add Menu Item Error: ', error );
                 
         }
 }
-const updateMenuItem = (req, res) => {
+const updateMenuItem = async (req, res) => {
 
-}
-const deleteMenuItem = (req, res) => {
+        try {
 
+                const {name, description, price , availability} = req.body
+                const { id } = req.params
+                await MenuItemModel.findByIdAndUpdate(id, {name, description, price , availability})
+                res.redirect('/api/home/menu')
+                        
+                } catch (error) {
+                     console.log("Delete Menu Item Error: ", error);
+                        
+                }
 }
-const showMenuItems = (req, res) => {
+const deleteMenuItem = async (req, res) => {
+
+        try {
+        const { id } = req.params
+        await MenuItemModel.findByIdAndDelete(id)
+        res.redirect('/api/home/menu')
+                
+        } catch (error) {
+             console.log("Delete Menu Item Error: ", error);
+                
+        }
+}
+const showMenuItems = async (req, res) => {
+
+        try {
+       const menuItems = await MenuItemModel.find()
+       res.render("menu", {menuItems: menuItems})
 
         
-        res.render("menu") 
+       } catch (error) {
+        console.log("Add Menu Items Error: ", error);
+        
+       }
         
 }
 

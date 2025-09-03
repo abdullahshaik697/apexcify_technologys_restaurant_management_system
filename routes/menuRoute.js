@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.get('/',showMenuItems)
 router.post('/',addMenuItem)
-router.put('/',updateMenuItem)
-router.delete('/',deleteMenuItem)
+router.patch('/:id',updateMenuItem)
+router.delete('/:id',deleteMenuItem)
  
 module.exports = router

@@ -9,6 +9,7 @@
     <h2>Menu Items</h2>
 
 <form action="/api/home/menu" method="POST">
+  <input type="hidden" name="menuItemId">
   <input type="text" name="name" placeholder="Dish Name" required>
   <input type="text" name="description" placeholder="Description" required>
   <input type="number" name="price" placeholder="Price" required>
@@ -22,6 +23,73 @@
 
 <hr>
 
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Availability</th>
+        <th>Update Item</th>
+        <th>Delete Item</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% menuItems.forEach(menuItem => { %>
+        <tr>
+          <td><%= menuItem.name %></td>
+          <td><%= menuItem.description %></td>
+          <td><%= menuItem.price %></td>
+          <td><%= menuItem.availability %></td>
+          <td><button onclick="editItem('<%= menuItem._id %>','<%= menuItem.name %>', '<%= menuItem.description %>', '<%= menuItem.price %>', '<%= menuItem.availability %>')" > Update </button></td>
+          <td><button onclick="deleteItem('<%= menuItem._id %>')"> Delete </button></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
 
 </body> 
+<script>
+const editItem = async (id, name, description, price, availability ) =>{
+
+try {
+const response = await fetch(`/api/home/menu/${id}`,{
+    method: "PATCH",
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        name: name,
+        description: description,
+        price: price,
+        avaialability: availability
+    })
+
+}) 
+    window.location.reload()
+} catch (error) {
+
+    console.log('Update Menu Item Error: ', error);
+    
+}
+
+}
+
+
+const deleteItem = async (id) =>{
+
+    try {
+    const response = await fetch(`/api/home/menu/${id}`,{
+        method: "DELETE"
+    }) 
+    window.location.reload()
+        
+    } catch (error) {
+
+        console.log('Delete Menu Item Error: ', error);
+        
+    }
+
+}
+</script>
 </html>
