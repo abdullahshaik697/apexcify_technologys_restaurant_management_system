@@ -22,10 +22,10 @@ const updateMenuItem = async (req, res) => {
                 const {name, description, price , availability} = req.body
                 const { id } = req.params
                 await MenuItemModel.findByIdAndUpdate(id, {name, description, price , availability})
-                res.redirect('/api/home/menu')
+                res.status(201).redirect('/api/home/menu');
                         
                 } catch (error) {
-                     console.log("Delete Menu Item Error: ", error);
+                     console.log("Update Menu Item Error: ", error);
                         
                 }
 }

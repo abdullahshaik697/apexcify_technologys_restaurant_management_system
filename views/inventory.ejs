@@ -15,6 +15,7 @@
         <input type="text" name="itemName" id="itemName" placeholder="Item Name" required />
         <input type="number" name="quantity" id="quantity" placeholder="Quantity" required />
         <select name="unit" id="unit" required>
+          <option value="kgs" hidden>-- Select Unit --</option>
           <option value="kgs">Kgs</option>
           <option value="liters">Liters</option>
           <option value="pieces">Pieces</option>
@@ -22,7 +23,10 @@
         <input type="number" name="threshold" id="threshold" placeholder="Threshold" required />
         <button type="submit" id="submitBtn">Add Item</button>
       </form>
-<br>
+
+      <button onclick="goHome()">Back to Home-> </button>
+      <br>
+
 <hr>
 <br>
     
@@ -53,7 +57,7 @@
 
 
 </body>
-
+  
 <script>
  const editItem = (id, name, quantity, unit, threshold) =>{
 
@@ -84,6 +88,16 @@
     }
   }
 
+  const goHome = ()=>{
+
+try {
+  
+  window.location.replace("/api/home")
+} catch (error) {
+  console.log(error);
+  
+}
+}
 </script>
 
 </html>

@@ -8,19 +8,20 @@
 <body>
     <h2>Menu Items</h2>
 
-<form action="/api/home/menu" method="POST">
-  <input type="hidden" name="menuItemId">
-  <input type="text" name="name" placeholder="Dish Name" required>
-  <input type="text" name="description" placeholder="Description" required>
-  <input type="number" name="price" placeholder="Price" required>
-  <select name="availability" required>
+<form action="/api/home/menu" method="POST" id="menuItemForm">
+  <input type="hidden" name="menuItemId" id="menuItemId">
+  <input type="text" name="name" placeholder="Dish Name" id="menuItemName" required>
+  <input type="text" name="description" placeholder="Description" id="menuItemDescription" required>
+  <input type="number" name="price" placeholder="Price" id="menuItemPrice" required>
+  <select name="availability" required id="menuItemAvailability">
     <option value="" hidden>-- Select Availability --</option>
     <option value="Available">Available</option>
     <option value="Not Available">Not Available</option>
   </select>
-  <button type="submit">Add Dish</button>
+  <button type="submit" id="submitBtn">Add Dish</button>
 </form>
 
+<button onclick="goHome()">Back to Home-> </button>
 <hr>
 
 <table border="1" cellpadding="8" cellspacing="0">
@@ -52,17 +53,28 @@
 <script>
 const editItem = async (id, name, description, price, availability ) =>{
 
-try {
-const response = await fetch(`/api/home/menu/${id}`,{
+  const menuItemForm = document.getElementById("menuItemForm")
+  document.getElementById("menuItemId").value = id;
+  document.getElementById("menuItemName").value = name;
+  document.getElementById("menuItemDescription").value = description;
+  document.getElementById("menuItemPrice").value = price;
+  document.getElementById("menuItemAvailability").value = availability;
+  
+  document.getElementById("submitBtn").innerText = "Update";
+
+  menuItemForm.onsubmit = async (e) =>{
+    e.preventDefault()
+    try {
+    const response = await fetch(`/api/home/menu/${id}`,{
     method: "PATCH",
     headers: {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        name: name,
-        description: description,
-        price: price,
-        avaialability: availability
+        name: document.getElementById("menuItemName").value,
+        description:document.getElementById("menuItemDescription").value,
+        price:document.getElementById("menuItemPrice").value,
+        availability: document.getElementById("menuItemAvailability").value
     })
 
 }) 
@@ -72,6 +84,7 @@ const response = await fetch(`/api/home/menu/${id}`,{
     console.log('Update Menu Item Error: ', error);
     
 }
+  }
 
 }
 
@@ -90,6 +103,17 @@ const deleteItem = async (id) =>{
         
     }
 
+}
+
+const goHome = ()=>{
+
+  try {
+    
+    window.location.replace("/api/home")
+  } catch (error) {
+    console.log(error);
+    
+  }
 }
 </script>
 </html>
