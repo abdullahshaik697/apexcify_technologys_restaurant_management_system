@@ -2,15 +2,11 @@ const express = require("express");
 const {
   showOrderPage,
   placeOrder,
-  showOrders,
-  serveOrder,
-  completeOrder,
 } = require("../controllers/orderController");
 
 const router = express.Router();
 
-router.get("/", showOrders);
-router.post("/orders/complete/:id", completeOrder);
-router.post("/orders/serve/:id", serveOrder);
+router.get("/", showOrderPage);
+router.post("/", placeOrder);
 
 module.exports = router;

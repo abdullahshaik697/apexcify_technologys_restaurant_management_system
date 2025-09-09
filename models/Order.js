@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const Order = new mongoose.Schema({
-    tableId: { 
+    tableNumber: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Table", 
         required: true },
@@ -13,7 +13,7 @@ const Order = new mongoose.Schema({
             required: true 
         },
         quantity: { 
-            type: Number, 
+            type: Number,  
             required: true, 
             min: 1 }
       }

@@ -8,6 +8,7 @@ const reservationsRouter = require('./routes/reservationsRoute')
 const tableRouter = require('./routes/tableRoute')
 const menuRouter = require('./routes/menuRoute')
 const ordersRouter = require('./routes/ordersRoute')
+const orderRouter = require('./routes/orderRoute')
 const inventoryRouter = require('./routes/inventoryRoute')
 
 
@@ -25,6 +26,7 @@ app.use('/api/home/reservations', reservationsRouter)
 app.use('/api/home/tables', tableRouter)
 app.use('/api/home/menu', menuRouter)
 app.use('/api/home/orders', ordersRouter)
+app.use('/api/home/order', orderRouter)
 app.use('/api/home/inventory', inventoryRouter)
 
 
