@@ -7,7 +7,62 @@
 </head>
 <body>
     
-    <h1>RESERVATIONS</h1>
+    <h1>RESERVATIONS</h1> 
+    <form action="/api/home/reservations" method="POST">
+      
+      <input type="text" name="customerName" placeholder="Customer Name" required>
+      <input type="text" name="phoneNumber" placeholder="Phone Number" required>
+      <input type="text" name="tableNumber" placeholder="Table Number" required>
+      <input type="datetime-local" name="reservationTime" required>
+      <button type="submit">Add Reservation</button>
+
+
+      </form>
+
+      <hr>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Phone Number</th>
+          <th>Table Number</th>
+          <th>Reservation Time</th>
+          <th>Status</th>
+          <th>Complete</th>
+          <th>Cancel</th>
+          
+        </tr>
+      </thead>
+  <tbody>
+
+    <% allReservations.forEach(reservation => { %>
+     <tr>
+              <td> <%= reservation.customerName  %> </td>
+              <td> <%= reservation.phoneNumber  %> </td>
+              <td> <%= reservation.tableNumber  %> </td>
+              <td> <%= reservation.reservationTime  %> </td>
+              <td> <%= reservation.status  %> </td>   
+              <td> 
+                <form action="/api/home/reservations/complete/<%= reservation._id %>" method="POST">
+                  <button type="submit">Complete</button>
+                </form>
+              </td>   
+              <td> 
+                <form action="/api/home/reservations/cancel/<%= reservation._id %>" method="POST">
+                  <button type="submit">Cancel</button>
+                </form>
+              </td>   
+            </tr>
+
+    <% }) %>
+  </tbody>
+</table>
 
  </body>
+
+ <script>
+
+
+ </script>
 </html>

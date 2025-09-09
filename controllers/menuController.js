@@ -14,7 +14,7 @@ const addMenuItem = async (req, res) => {
               console.log('Add Menu Item Error: ', error );
                 
         }
-}
+} 
 const updateMenuItem = async (req, res) => {
 
         try {

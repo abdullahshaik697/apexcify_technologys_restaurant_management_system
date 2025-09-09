@@ -9,15 +9,16 @@ mongoose.Schema({
     phoneNumber: {
         type: String,
         required: true,
+        
     },
-    tableId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Table",
+    tableNumber: {
+        type: Number,
         required: true,
     },
     reservationTime: {
         type: Date,
         required: true,
+        unique: true
     },
     status: {
         type: String,

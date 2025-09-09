@@ -6,7 +6,7 @@ const updateOrder = (req, res) => {
 
 }
 const deleteOrder = (req, res) => {
-
+ 
 }
 const showOrders = (req, res) => {
 

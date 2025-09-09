@@ -1,10 +1,18 @@
-const express =  require('express')
-const { showReservations, addReservation, updateReservation, deleteReservation } = require('../controllers/reservationController')
-const router = express.Router()
+const express = require('express');
+const {
+  reserveTable,
+  cancelReservation,
+  completeReservation,
+  showReservations
+} = require('../controllers/reservationController');
 
-router.get('/',showReservations)
-router.post('/',addReservation)
-router.put('/',updateReservation)
-router.delete('/',deleteReservation)
+const router = express.Router();
 
-module.exports = router
+router.get('/', showReservations);
+router.post('/', reserveTable);
+router.post('/cancel/:id', cancelReservation);
+router.post('/complete/:id', completeReservation);
+
+
+
+module.exports = router;

@@ -1,21 +1,73 @@
 
-const addTable = (req, res) => {
+const TableModel = require("../models/Table")
+
+
+const showTables = async (req, res) => {
+
+        try {
+                const allTables = await TableModel.find()
+                res.render("tables", { allTables: allTables })
+
+        } catch (error) {
+console.log(error);
+
+        }
 
 }
-const updateTableStatus = (req, res) => {
+const occupyTable = async (req, res) => {
+        try {
+                const { id } = req.params
+                await TableModel.findByIdAndUpdate(id,{
+                        status: "occupied"
+                })
+                
+                res.redirect("/api/home/tables")
 
+
+        } catch (error) {
+        console.log(error);
+ 
+        }
+}
+const completeTable = async (req, res) => {
+        try {
+                const { id } = req.params
+                await TableModel.findByIdAndUpdate(id,{
+                        status: "available",
+                        reservedBy:null,
+                        reservedAt: null
+                })
+                
+                res.redirect("/api/home/tables")
+
+        } catch (error) {
+        console.log(error);
+
+        }
+}
+const reserveTable = async (req, res) => {
+        try {
+                const { id } = req.params
+                const { reservedBy } = req.body
+                await TableModel.findByIdAndUpdate(id,{
+                        status: "reserved",
+                        reservedBy: reservedBy,
+                        reservedAt: reservedAt
+                })
+                
+                res.redirect("/api/home/tables")
+
+
+        } catch (error) {
+        console.log(error);
+
+        }
 }
 
-const showTables = (req, res) => {
 
-        
-        res.render("tables")
-        
-}
-
-
-module.exports =  {
-        addTable,
-        updateTableStatus,
+module.exports = {
+        occupyTable,
+        completeTable,
+        reserveTable,
         showTables
 }

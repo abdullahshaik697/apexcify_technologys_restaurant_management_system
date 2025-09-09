@@ -6,8 +6,39 @@
     <title>TABLES</title>
 </head>
 <body>
-    
     <h1>TABLES</h1>
+    <form action="/api/home/tables" method="POST">
+        <input type="number" name="tableNumber" placeholder="Table Number" required>
+        <input type="number" name="capacity" placeholder="Capacity" required>
+        <button type="submit">Add Table</button>
 
- </body>
+
+      </form>
+
+      <hr>
+
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+          <th>Table No</th>
+          <th>Capacity</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+  <tbody>
+
+    <% allTables.forEach(table => { %>
+     <tr>
+            <td><%= table.tableNumber %></td>
+            <td><%= table.capacity %></td>
+            <td><%= table.status %></td>
+     </tr>
+
+    <% }) %>
+  </tbody>
+</table>
+
+    
+
+ </body> 
 </html>

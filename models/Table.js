@@ -11,8 +11,9 @@ const Table = new mongoose.Schema({
         required: true,
     },
     isAvailable: {
-        type: Boolean,
-        default: true,
+        type: String,
+        enum: ['available', 'not available'],
+        default: 'available',
     }
 })
 
