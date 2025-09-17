@@ -3,14 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <title>Home</title>
 </head>
 <body>
     
-    <h1>HOME</h1>
+    <nav class="bg-gray-900 text-white px-6 py-3 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+          <!-- Logo / Brand -->
+          <div class="text-xl font-bold tracking-wide">
+            Restaurant Panel
+          </div>
+      
+          <!-- Nav Links -->
+          <ul class="flex space-x-6">
+            <li>
+              <a href="/api/home/orders" class="hover:text-yellow-400 transition">Orders</a>
+            </li>
+            <li>
+              <a href="/api/home/reservations" class="hover:text-yellow-400 transition">Reservations</a>
+            </li>
+            <li>
+              <a href="/api/home/tables" class="hover:text-yellow-400 transition">Tables</a>
+            </li>
+            <li>
+              <a href="/api/home/menu" class="hover:text-yellow-400 transition">Menu</a>
+            </li>
+            <li>
+                <a href="/api/home/inventory" class="hover:text-yellow-400 transition">Inventory</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-    <div>
         <div>
+            <button onclick="window.location.href='/api/home/order'">Place Order</button>
             <button onclick="window.location.href='/api/home/orders'">Orders</button>
             <button onclick="window.location.href='/api/home/reservations'">Reservations</button>
             <button onclick="window.location.href='/api/home/tables'">Tables</button>
@@ -19,6 +47,5 @@
         </div>
         
         
-    </div>
 </body>
 </html>

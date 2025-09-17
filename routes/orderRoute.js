@@ -4,7 +4,7 @@ const {
   placeOrder,
 } = require("../controllers/orderController");
 
-const router = express.Router();
+const router = express.Router(); 
 
 router.get("/", showOrderPage);
 router.post("/", placeOrder);

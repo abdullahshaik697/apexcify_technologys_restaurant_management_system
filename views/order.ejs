@@ -2,32 +2,39 @@
 <html>
 <head>
   <title>Place Order</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+
 </head>
 <body>
   <h1>Place an Order</h1>
 
   <form action="/api/home/order" method="POST">
-    <label>Select Table:</label>
-    <select name="tableNumber" required>
+    <!-- Select Table -->
+    <label for="table">Select Table:</label>
+    <select name="tableNumber" id="table" required>
       <% tables.forEach(table => { %>
-        <option value="<%= table._id %>">Table <%= table.tableNumber %></option>
+        <% if (table.isAvailable === "available") { %>  <!-- ✅ only available tables -->
+          <option value="<%= table.tableNumber %>">
+            Table <%= table.tableNumber %> (Capacity: <%= table.capacity %>)
+          </option>
+        <% } %>
       <% }) %>
     </select>
     <br><br>
 
+    <!-- Menu Items -->
     <h3>Menu Items</h3>
     <% menuItems.forEach(item => { %>
       <div>
-        <label>
-          <%= item.name %> - Rs.<%= item.price %>
-        </label>
-        <input type="number" name="items[][menuItemId]" value="<%= item._id %>" hidden>
-        <input type="number" name="items[][quantity]" placeholder="Qty" min="1">
+        <label><%= item.name %> - Rs.<%= item.price %></label>
+        <input type="hidden" name="items[<%= item._id %>][menuItemId]" value="<%= item._id %>">
+        <input type="number" name="items[<%= item._id %>][quantity]" placeholder="Qty" min="0">
       </div>
     <% }) %>
 
     <br>
     <button type="submit">Place Order</button>
   </form>
+
 </body>
 </html>

@@ -2,21 +2,43 @@
 <html>
 <head>
   <title>Orders</title>
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+
 </head>
 <body>
   <h1>All Orders</h1>
 
+<table style="border:1px solid #ccc; margin:10px; padding:10px;" border="1" cellpadding="8" cellspacing="0">
+  <thead>
+<tr>
+  <th>Table</th>
+  <th>Total</th>
+  <th>Status</th>
+  <th>Items</th>
+  <th>Actions</th>
+
+</tr>
+  </thead>
+
+<tbody>
   <% orders.forEach(order => { %>
-    <div style="border:1px solid #ccc; margin:10px; padding:10px;">
-      <p><strong>Table:</strong> <%= order.tableNumber.tableNumber %></p>
-      <p><strong>Status:</strong> <%= order.status %></p>
-      <p><strong>Total:</strong> Rs.<%= order.totalAmount %></p>
-      <h4>Items:</h4>
-      <ul>
-        <% order.items.forEach(i => { %>
-          <li><%= i.menuItemId.name %> (x<%= i.quantity %>)</li>
-        <% }) %>
-      </ul>
+<tr>
+<td> <%= order.tableNumber %></td>
+<td> <%= order.status %></td>
+<td> <%= order.totalAmount %></td>
+<td>
+  <% order.items.forEach(i => { %>
+    <label><%= i.menuItemId.name %> (x<%= i.quantity %>)</label><br>
+  <% }) %>
+  </td>
+
+  <td>
+
+    <% if (order.status === "pending") { %>
+      <form action="/api/home/orders/cancel/<%= order._id %>" method="POST">
+        <button type="submit">Cancel Order</button>
+      </form>
+      <% } %>
 
       <% if (order.status === "pending") { %>
         <form action="/api/home/orders/serve/<%= order._id %>" method="POST">
@@ -29,7 +51,13 @@
           <button type="submit">Complete Order</button>
         </form>
       <% } %>
-    </div>
-  <% }) %>
+  </td>
+
+
+</tr>
+<% }) %>
+</tbody>
+</table>
+
 </body>
 </html>

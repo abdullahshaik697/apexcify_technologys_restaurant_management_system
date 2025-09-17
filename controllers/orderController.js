@@ -5,44 +5,56 @@ const MenuItemModel = require('../models/MenuItem');
 
 
 // Show all orders
+// Show all orders
 const showOrders = async (req, res) => {
-        try {
-          const orders = await OrderModel.find()
-            .populate("tableNumber", "tableNumber")
-            .populate("items.menuItemId", "name price")
-            .sort({ createdAt: -1 });
-      
-          res.render("orders", { orders });
-        } catch (error) {
-          console.log(error);
-          res.status(500).send("Error loading orders");
-        }
-      };
+  try {
+    const orders = await OrderModel.find()
+      .populate("tableNumber", "tableNumber")
+      .populate("items.menuItemId", "name price")
+      .sort({ createdAt: -1 }); // 👈 Latest order first
+
+    res.render("orders", { orders });
+  } catch (error) {
+    console.log(error); 
+    res.status(500).send("Error loading orders");
+  }
+};
 
 // Show order page
 const showOrderPage = async (req, res) => {
   try {
-    const menuItems = await MenuItemModel.find({ availability: "available" }); // sirf available items dikhao
-    const tables = await TableModel.find();
-    res.render("order", { menuItems, tables });
+    const menuItems = await MenuItemModel.find({ availability: "Available"}); // sirf available items dikhao
+    const tables = await TableModel.find().sort({ tableNumber: 1 });
+    
+    res.render("order", { menuItems: menuItems, tables: tables });
   } catch (error) {
     console.log(error);
     res.status(500).send("Error loading order page");
   }
 };
-
-// Place order
 const placeOrder = async (req, res) => {
   try {
     const { tableNumber, items } = req.body;
 
-    // Find Table
-    const table = await TableModel.findById(tableNumber);
+    // Filter items jahan quantity > 0
+    const filteredItems = Object.values(items).filter(
+      (item) => item.quantity && item.quantity > 0
+    );
+
+    if (filteredItems.length === 0) {
+      return res.status(400).send("Please select at least 1 item with quantity");
+    }
+    const table = await TableModel.findOne({ tableNumber: Number(tableNumber) });
     if (!table) return res.status(404).send("Table not found");
+    
+    // Agar table already occupied hai
+    if (table.isAvailable === "not available") {
+      return res.status(400).send("This table is already occupied");
+    }
 
     // Calculate total
     let totalAmount = 0;
-    for (let item of items) {
+    for (let item of filteredItems) {
       const menuItem = await MenuItemModel.findById(item.menuItemId);
       if (!menuItem) return res.status(404).send("Menu Item not found");
 
@@ -50,14 +62,15 @@ const placeOrder = async (req, res) => {
     }
 
     // Create order
-    const newOrder = new OrderModel({
-      tableNumber,
-      items,
-      totalAmount
+    const newOrder = new OrderModel({     
+      tableNumber: Number(tableNumber),  // ✅ Number ensure
+      items: filteredItems,
+      totalAmount,
     });
     await newOrder.save();
+    
 
-    // Mark table not available
+    // Mark table not available 🚨
     table.isAvailable = "not available";
     await table.save();
 
@@ -67,7 +80,7 @@ const placeOrder = async (req, res) => {
     res.status(500).send("Error placing order");
   }
 };
-
+    
 
 // Serve order
 const serveOrder = async (req, res) => {
@@ -81,18 +94,19 @@ const serveOrder = async (req, res) => {
   }
 };
 
-// Complete order
-const completeOrder = async (req, res) => {
+
+// Cancel Order
+const cancelOrder = async (req, res) => {
   try {
     const { id } = req.params;
     const order = await OrderModel.findById(id);
     if (!order) return res.status(404).send("Order not found");
 
-    order.status = "completed";
+    order.status = "cancelled";
     await order.save();
 
-    // Free the table
-    const table = await TableModel.findById(order.tableNumber);
+    // Free the table 🚨
+    const table = await TableModel.findOne({ tableNumber: order.tableNumber });
     if (table) {
       table.isAvailable = "available";
       await table.save();
@@ -101,14 +115,39 @@ const completeOrder = async (req, res) => {
     res.redirect("/api/home/orders");
   } catch (error) {
     console.log(error);
-    res.status(500).send("Error completing order");
+    res.status(500).send("Error cancelling order");
   }
 };
 
+// Complete Order
+const completeOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const order = await OrderModel.findById(id);
+    if (!order) return res.status(404).send("Order not found");
+
+    order.status = "completed";
+    await order.save();
+
+    // Free the table 🚨
+    const table = await TableModel.findOne({ tableNumber: order.tableNumber });
+    if (table) {
+      table.isAvailable = "available";
+      await table.save();
+    }
+
+    res.redirect("/api/home/orders");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error completing order");
+  }
+};
 module.exports = {
         showOrders,
   showOrderPage,
   placeOrder,
   serveOrder,
   completeOrder,
+  cancelOrder
 };
