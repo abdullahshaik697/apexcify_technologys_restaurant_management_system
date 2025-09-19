@@ -1,68 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
-
-    <title>INVENTORY</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>INVENTORY</title>
 </head>
-<body>
-    
-    <h1>Inventory</h1>
+<body class="bg-gray-100 min-h-screen p-0">
 
-    <form id="inventoryItemForm" action="/api/home/inventory" method="POST">
-        
-        <input type="hidden" name="itemId" id="itemId"/>
-        <input type="text" name="itemName" id="itemName" placeholder="Item Name" required />
-        <input type="number" name="quantity" id="quantity" placeholder="Quantity" required />
-        <select name="unit" id="unit" required>
-          <option value="kgs" hidden>-- Select Unit --</option>
-          <option value="kgs">Kgs</option>
-          <option value="liters">Liters</option>
-          <option value="pieces">Pieces</option>
-        </select>
-        <input type="number" name="threshold" id="threshold" placeholder="Threshold" required />
-        <button type="submit" id="submitBtn">Add Item</button>
-      </form>
-
-      <button onclick="goHome()">Back to Home-> </button>
-      <br>
-
-<hr>
-<br>
-    
-      <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-            <th>Threshold Quantity</th>
-            <th>Update Item</th>
-            <th>Delete Item</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% items.forEach(item => { %>
-            <tr>
-              <td><%= item.itemName %></td>
-              <td><%= item.quantity %></td>
-              <td><%= item.unit %></td>
-              <td><%= item.threshold %></td>
-              <td><button onclick="editItem('<%= item._id %>', '<%= item.itemName %>','<%= item.quantity %>','<%= item.unit %>','<%= item.threshold %>')"> Update </button></td>
-              <td><button onclick="deleteItem('<%= item._id %>')"> Delete </button></td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
-
-
-</body>
+  <nav class="bg-gray-900 text-white px-6 py-3 shadow-md w-full mb-2">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo / Brand -->
+      <div class="text-xl font-bold tracking-wide">
+        Restaurant Panel
+      </div>
   
-<script>
- const editItem = (id, name, quantity, unit, threshold) =>{
+      <!-- Nav Links -->
+      <ul class="flex space-x-6">
+        <li>
+          <a href="/api/home" class="hover:text-yellow-400 transition">Home</a>
+        </li>
+        <li>
+          <a href="/api/home/orders" class="hover:text-yellow-400 transition">Orders</a>
+        </li>
+        <li>
+          <a href="/api/home/reservations" class="hover:text-yellow-400 transition">Reservations</a>
+        </li>
+        <li>
+          <a href="/api/home/tables" class="hover:text-yellow-400 transition">Tables</a>
+        </li>
+        <li>
+          <a href="/api/home/menu" class="hover:text-yellow-400 transition">Menu</a>
+        </li>
+        <li>
+            <a href="/api/home/inventory" class="hover:text-yellow-400 transition">Inventory</a>
+        </li>
+    </ul>
+</div>
+</nav>
 
+
+  <!-- Title -->
+  <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Inventory</h1>
+
+  <!-- Inventory Form -->
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg mb-8">
+    <form id="inventoryItemForm" action="/api/home/inventory" method="POST" class="grid gap-4 sm:grid-cols-2">
+
+      <input type="hidden" name="itemId" id="itemId"/>
+
+      <input type="text" name="itemName" id="itemName" placeholder="Item Name" required
+        class="border border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500"/>
+
+      <input type="number" name="quantity" id="quantity" placeholder="Quantity" required
+        class="border border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500"/>
+
+      <select name="unit" id="unit" required
+        class="border border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500">
+        <option value="kgs" hidden>-- Select Unit --</option>
+        <option value="kgs">Kgs</option>
+        <option value="liters">Liters</option>
+        <option value="pieces">Pieces</option>
+      </select>
+
+      <input type="number" name="threshold" id="threshold" placeholder="Threshold" required
+        class="border border-gray-300 rounded-md p-3 w-full focus:ring-2 focus:ring-blue-500"/>
+
+      <button type="submit" id="submitBtn"
+        class="col-span-2 bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition font-medium">
+        Add Item
+      </button>
+    </form>
+
+    <div class="text-center mt-4">
+      <button onclick="goHome()" 
+        class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition">
+        Back to Home →
+      </button>
+    </div>
+  </div>
+
+  <!-- Inventory Table -->
+  <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-lg overflow-x-auto">
+    <table class="min-w-full border border-gray-300 divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Item Name</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Quantity</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Unit</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Threshold Quantity</th>
+          <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Update Item</th>
+          <th class="px-6 py-3 text-center text-sm font-semibold text-gray-700">Delete Item</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% items.forEach(item => { %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 text-gray-800"><%= item.itemName %></td>
+            <td class="px-6 py-4 text-gray-800"><%= item.quantity %></td>
+            <td class="px-6 py-4 text-gray-800"><%= item.unit %></td>
+            <td class="px-6 py-4 text-gray-800"><%= item.threshold %></td>
+            <td class="px-6 py-4 text-center">
+              <button onclick="editItem('<%= item._id %>', '<%= item.itemName %>','<%= item.quantity %>','<%= item.unit %>','<%= item.threshold %>')"
+                class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition">
+                Update
+              </button>
+            </td>
+            <td class="px-6 py-4 text-center">
+              <button onclick="deleteItem('<%= item._id %>')" 
+                class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition">
+                Delete
+              </button>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const editItem = (id, name, quantity, unit, threshold) =>{
       document.getElementById("itemId").value = id;
       document.getElementById("itemName").value = name;
       document.getElementById("quantity").value = quantity;
@@ -70,36 +128,31 @@
       document.getElementById("threshold").value = threshold;
       document.getElementById("submitBtn").innerText = "Update Item";
 
-        // Form ka action update route pe kar do
-    const form = document.getElementById("inventoryItemForm");
-    form.action = "/api/home/inventory/update/" + id;
-    form.method = "POST"; // PUT/DELETE directly nahi hota HTML me, isliye POST use karo
+      const form = document.getElementById("inventoryItemForm");
+      form.action = "/api/home/inventory/update/" + id;
+      form.method = "POST"; 
+    }
 
- }
- const deleteItem = async (id) => {
-    if (confirm("Are you sure you want to delete this item?")) {
-      try {
-        const response = await fetch(`/api/home/inventory/delete/${id}`, {
-          method: "DELETE",
-        });
-        window.location.reload();
-        
-      } catch (error) {
-        console.error("Error deleting item:", error);
+    const deleteItem = async (id) => {
+      if (confirm("Are you sure you want to delete this item?")) {
+        try {
+          const response = await fetch(`/api/home/inventory/delete/${id}`, {
+            method: "DELETE",
+          });
+          window.location.reload();
+        } catch (error) {
+          console.error("Error deleting item:", error);
+        }
       }
     }
-  }
 
-  const goHome = ()=>{
-
-try {
-  
-  window.location.replace("/api/home")
-} catch (error) {
-  console.log(error);
-  
-}
-}
-</script>
-
+    const goHome = ()=>{
+      try {
+        window.location.replace("/api/home")
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  </script>
+</body>
 </html>

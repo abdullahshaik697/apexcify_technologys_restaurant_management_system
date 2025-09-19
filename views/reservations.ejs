@@ -5,66 +5,106 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESERVATIONS</title>
-    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
-</head>
-<body>
-    
-    <h1>RESERVATIONS</h1> 
-    <form action="/api/home/reservations" method="POST">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>   
+<body class="bg-gray-100 min-h-screen flex flex-col items-center pb-8">
+  <nav class="bg-gray-900 text-white px-6 py-3 shadow-md w-full mb-2">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo / Brand -->
+      <div class="text-xl font-bold tracking-wide">
+        Restaurant Panel
+      </div>
+  
+      <!-- Nav Links -->
+      <ul class="flex space-x-6">
+        <li>
+          <a href="/api/home" class="hover:text-yellow-400 transition">Home</a>
+        </li>
+        <li>
+          <a href="/api/home/orders" class="hover:text-yellow-400 transition">Orders</a>
+        </li>
+        <li>
+          <a href="/api/home/reservations" class="hover:text-yellow-400 transition">Reservations</a>
+        </li>
+        <li>
+          <a href="/api/home/tables" class="hover:text-yellow-400 transition">Tables</a>
+        </li>
+        <li>
+          <a href="/api/home/menu" class="hover:text-yellow-400 transition">Menu</a>
+        </li>
+        <li>
+            <a href="/api/home/inventory" class="hover:text-yellow-400 transition">Inventory</a>
+        </li>
+    </ul>
+</div>
+</nav>
+
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">RESERVATIONS</h1> 
+
+  <!-- Form -->
+  <form action="/api/home/reservations" method="POST" 
+        class="bg-white shadow-md rounded-xl p-6 w-full max-w-2xl mb-10 space-y-4">
       
-      <input type="text" name="customerName" placeholder="Customer Name" required>
-      <input type="text" name="phoneNumber" placeholder="Phone Number" required>
-      <input type="text" name="tableNumber" placeholder="Table Number" required>
-      <input type="datetime-local" name="reservationTime" required>
-      <button type="submit">Add Reservation</button>
+    <input type="text" name="customerName" placeholder="Customer Name" required
+           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+    <input type="text" name="phoneNumber" placeholder="Phone Number" required
+           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+    <input type="text" name="tableNumber" placeholder="Table Number" required
+           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+    <input type="datetime-local" name="reservationTime" required
+           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
+    <button type="submit" 
+            class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition">
+      Add Reservation
+    </button>
+  </form>
 
-      </form>
+  <hr class="w-full max-w-4xl border-gray-300 mb-6">
 
-      <hr>
-
-<table border="1" cellpadding="8" cellspacing="0">
-    <thead>
-        <tr>
-          <th>Customer Name</th>
-          <th>Phone Number</th>
-          <th>Table Number</th>
-          <th>Reservation Time</th>
-          <th>Status</th>
-          <th>Complete</th>
-          <th>Cancel</th>
-          
-        </tr>
+  <!-- Table -->
+  <div class="overflow-x-auto w-full max-w-5xl">
+    <table class="w-full bg-white shadow-md rounded-xl overflow-hidden">
+      <thead class="bg-blue-600 text-white">
+          <tr>
+            <th class="py-3 px-4 text-left">Customer Name</th>
+            <th class="py-3 px-4 text-left">Phone Number</th>
+            <th class="py-3 px-4 text-left">Table Number</th>
+            <th class="py-3 px-4 text-left">Reservation Time</th>
+            <th class="py-3 px-4 text-left">Status</th>
+            <th class="py-3 px-4 text-center">Complete</th>
+            <th class="py-3 px-4 text-center">Cancel</th>
+          </tr>
       </thead>
-  <tbody>
+      <tbody class="divide-y divide-gray-200">
+        <% allReservations.forEach(reservation => { %>
+         <tr class="hover:bg-gray-50">
+                <td class="py-3 px-4"> <%= reservation.customerName  %> </td>
+                <td class="py-3 px-4"> <%= reservation.phoneNumber  %> </td>
+                <td class="py-3 px-4"> <%= reservation.tableNumber  %> </td>
+                <td class="py-3 px-4"> <%= reservation.reservationTime  %> </td>
+                <td class="py-3 px-4 font-semibold"> <%= reservation.status  %> </td>   
+                <td class="py-3 px-4 text-center"> 
+                  <form action="/api/home/reservations/complete/<%= reservation._id %>" method="POST">
+                    <button type="submit" 
+                            class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                      Complete
+                    </button>
+                  </form>
+                </td>   
+                <td class="py-3 px-4 text-center"> 
+                  <form action="/api/home/reservations/cancel/<%= reservation._id %>" method="POST">
+                    <button type="submit" 
+                            class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                      Cancel
+                    </button>
+                  </form>
+                </td>   
+              </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
 
-    <% allReservations.forEach(reservation => { %>
-     <tr>
-              <td> <%= reservation.customerName  %> </td>
-              <td> <%= reservation.phoneNumber  %> </td>
-              <td> <%= reservation.tableNumber  %> </td>
-              <td> <%= reservation.reservationTime  %> </td>
-              <td> <%= reservation.status  %> </td>   
-              <td> 
-                <form action="/api/home/reservations/complete/<%= reservation._id %>" method="POST">
-                  <button type="submit">Complete</button>
-                </form>
-              </td>   
-              <td> 
-                <form action="/api/home/reservations/cancel/<%= reservation._id %>" method="POST">
-                  <button type="submit">Cancel</button>
-                </form>
-              </td>   
-            </tr>
-
-    <% }) %>
-  </tbody>
-</table>
-
- </body>
-
- <script>
-
-
- </script>
+</body>
 </html>

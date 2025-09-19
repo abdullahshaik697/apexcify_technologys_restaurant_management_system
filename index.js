@@ -13,7 +13,7 @@ const inventoryRouter = require('./routes/inventoryRoute')
 
 
 const PORT = process.env.PORT
-const url = process.env.url
+const url = process.env.url   
 const app = express()
 
 app.set('view engine', 'ejs')

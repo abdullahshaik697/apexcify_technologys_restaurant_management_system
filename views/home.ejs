@@ -37,15 +37,48 @@
     </div>
 </nav>
 
-        <div>
-            <button onclick="window.location.href='/api/home/order'">Place Order</button>
-            <button onclick="window.location.href='/api/home/orders'">Orders</button>
-            <button onclick="window.location.href='/api/home/reservations'">Reservations</button>
-            <button onclick="window.location.href='/api/home/tables'">Tables</button>
-            <button onclick="window.location.href='/api/home/menu'">Menu</button>
-            <button onclick="window.location.href='/api/home/inventory'">Inventory</button>
-        </div>
-        
+<div class="mainContainer flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+      
+      <button 
+        onclick="window.location.href='/api/home/order'" 
+        class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 transition">
+        Place Order
+      </button>
+  
+      <button 
+        onclick="window.location.href='/api/home/orders'" 
+        class="px-6 py-3 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 transition">
+        Orders
+      </button>
+  
+      <button 
+        onclick="window.location.href='/api/home/reservations'" 
+        class="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg shadow-md hover:bg-purple-700 transition">
+        Reservations
+      </button>
+  
+      <button 
+        onclick="window.location.href='/api/home/tables'" 
+        class="px-6 py-3 bg-yellow-600 text-white font-medium rounded-lg shadow-md hover:bg-yellow-700 transition">
+        Tables
+      </button>
+  
+      <button 
+        onclick="window.location.href='/api/home/menu'" 
+        class="px-6 py-3 bg-pink-600 text-white font-medium rounded-lg shadow-md hover:bg-pink-700 transition">
+        Menu
+      </button>
+  
+      <button 
+        onclick="window.location.href='/api/home/inventory'" 
+        class="px-6 py-3 bg-red-600 text-white font-medium rounded-lg shadow-md hover:bg-red-700 transition">
+        Inventory
+      </button>
+  
+    </div>
+  </div>
+  
         
 </body>
 </html>
